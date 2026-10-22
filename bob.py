@@ -3,7 +3,7 @@ import socket
 import json
 import random
 import threading
-from config import BOB_IP, BOB_PORT, MASTER_KEY_BOB
+from config import BOB_IP, BOB_PORT
 from utils import aes_encrypt, aes_decrypt
 
 SESSION_KEY = None
@@ -20,6 +20,14 @@ def receive_messages(sock):
 
 def start_bob():
     global SESSION_KEY
+
+    print("=== BOB (SERVER) ===")
+    while True:
+        master_key_bob = input("Masukkan Master Key untuk Bob (16 karakter): ")
+        if len(master_key_bob) == 16:
+            break
+        print("[!] Error: Key harus tepat 16 karakter.")
+
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((BOB_IP, BOB_PORT))
     server.listen(1)
@@ -30,7 +38,7 @@ def start_bob():
     
     # --- Step 3: Terima Ticket dari Alice ---
     ticket_enc = conn.recv(2048).decode('ascii')
-    ticket_dec = aes_decrypt(MASTER_KEY_BOB, ticket_enc)
+    ticket_dec = aes_decrypt(master_key_bob, ticket_enc)
     ticket_data = json.loads(ticket_dec)
     
     SESSION_KEY = ticket_data['Ks']

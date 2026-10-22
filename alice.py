@@ -3,7 +3,7 @@ import socket
 import json
 import random
 import threading
-from config import KDC_IP, KDC_PORT, BOB_IP, BOB_PORT, MASTER_KEY_ALICE
+from config import KDC_IP, KDC_PORT, BOB_IP, BOB_PORT
 from utils import aes_encrypt, aes_decrypt
 
 SESSION_KEY = None
@@ -20,9 +20,16 @@ def receive_messages(sock):
 
 def start_alice():
     global SESSION_KEY
+
+    print("=== ALICE (CLIENT) ===")
+    while True:
+        master_key_alice = input("Masukkan Master Key untuk Alice (16 karakter): ")
+        if len(master_key_alice) == 16:
+            break
+        print("[!] Error: Key harus tepat 16 karakter.")
     
     # --- Step 1: Minta key ke KDC ---
-    print("[*] Menghubungi KDC...")
+    print("\n[*] Menghubungi KDC...")
     kdc_sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     kdc_sock.connect((KDC_IP, KDC_PORT))
     
@@ -35,7 +42,7 @@ def start_alice():
     reply_enc = kdc_sock.recv(4096).decode('ascii')
     kdc_sock.close()
     
-    reply_dec = aes_decrypt(MASTER_KEY_ALICE, reply_enc)
+    reply_dec = aes_decrypt(master_key_alice, reply_enc)
     kdc_data = json.loads(reply_dec)
     
     if kdc_data['N1'] != n1:
