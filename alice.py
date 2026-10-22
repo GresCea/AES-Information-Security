@@ -22,11 +22,13 @@ def start_alice():
     global SESSION_KEY
 
     print("=== ALICE (CLIENT) ===")
-    while True:
-        master_key_alice = input("Masukkan Master Key untuk Alice (16 karakter): ")
-        if len(master_key_alice) == 16:
-            break
-        print("[!] Error: Key harus tepat 16 karakter.")
+    master_key_alice = input("Masukkan Master Key untuk Alice: ")
+    if len(master_key_alice) > 16:
+        print("[!] Info: Key dipotong menjadi 16 karakter otomatis.")
+        master_key_alice = master_key_alice[:16]
+    elif len(master_key_alice) < 16:
+        print("[!] Info: Key kurang dari 16 karakter, di-padding otomatis.")
+        master_key_alice = master_key_alice.ljust(16, '0')
     
     # --- Step 1: Minta key ke KDC ---
     print("\n[*] Menghubungi KDC...")

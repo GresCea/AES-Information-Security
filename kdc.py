@@ -12,9 +12,13 @@ def generate_session_key():
 def get_key(prompt_text):
     while True:
         key = input(prompt_text)
-        if len(key) == 16:
-            return key
-        print("[!] Error: Master Key harus tepat 16 karakter (ASCII) untuk AES-128.")
+        if len(key) > 16:
+            print("[!] Info: Key lebih dari 16 karakter, dipotong otomatis.")
+            return key[:16]
+        elif len(key) < 16:
+            print("[!] Info: Key kurang dari 16 karakter, di-padding dengan '0'.")
+            return key.ljust(16, '0')
+        return key
 
 def start_kdc():
 

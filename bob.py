@@ -22,11 +22,13 @@ def start_bob():
     global SESSION_KEY
 
     print("=== BOB (SERVER) ===")
-    while True:
-        master_key_bob = input("Masukkan Master Key untuk Bob (16 karakter): ")
-        if len(master_key_bob) == 16:
-            break
-        print("[!] Error: Key harus tepat 16 karakter.")
+    master_key_bob = input("Masukkan Master Key untuk bob: ")
+    if len(master_key_bob) > 16:
+        print("[!] Info: Key dipotong menjadi 16 karakter otomatis.")
+        master_key_bob = master_key_bob[:16]
+    elif len(master_key_bob) < 16:
+        print("[!] Info: Key kurang dari 16 karakter, di-padding otomatis.")
+        master_key_bob = master_key_bob.ljust(16, '0')
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((BOB_IP, BOB_PORT))
