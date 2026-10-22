@@ -67,7 +67,7 @@ python bob.py
 python alice.py
 ```
 * *Input:* Masukkan Master Key Alice yang **sama persis** dengan yang dimasukkan di KDC.
-* Proses autentikasi 5 langkah akan berjalan. Jika berhasil, layar akan menampilkan mode *chat*.menampilkan mode *chat*.
+* Proses autentikasi 5 langkah akan berjalan. Jika berhasil, layar akan menampilkan mode *chat*.
 
 ## Panduan Wireshark (Monitoring)
 Untuk membuktikan bahwa komunikasi berjalan dan terenkripsi, gunakan Wireshark di **Windows Device A**:

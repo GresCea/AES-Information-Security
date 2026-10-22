@@ -81,7 +81,7 @@ def start_alice():
     while True:
         msg = input("[Anda]: ")
         msg_enc = aes_encrypt(SESSION_KEY, msg)
-        # Menampilkan bentuk ciphertext Hex sesuai syarat no. 3
+        # Menampilkan bentuk ciphertext Hex
         print(f"    (Ciphertext dikirim: {msg_enc})")
         bob_sock.send(msg_enc.encode('ascii'))
 
